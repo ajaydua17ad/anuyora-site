@@ -1,12 +1,19 @@
 export default function Wordmark({ tone = "dark", className = "" }) {
-  const color = tone === "light" ? "text-navy-text" : "text-ink";
-  const box = tone === "light" ? "bg-navy-text" : "bg-navy";
-  return (
-    <span className={`inline-flex items-center gap-3 ${className}`} data-testid="anuyora-wordmark">
-      <span className={`inline-block h-[7px] w-[7px] ${box}`} aria-hidden="true" />
-      <span className={`font-serif text-[17px] font-semibold tracking-[0.24em] ${color}`}>
-        ANUYORA
+  if (tone === "light") {
+    return (
+      <span className={`inline-flex items-center bg-white px-4 py-3 ${className}`}>
+        <img src="/anuyora-logo.webp" alt="ANUYORA" width={160} height={53} className="h-7 w-auto" />
       </span>
-    </span>
+    );
+  }
+  return (
+    <img
+      src="/anuyora-logo.webp"
+      alt="ANUYORA"
+      width={160}
+      height={53}
+      data-testid="anuyora-wordmark"
+      className={`h-7 w-auto md:h-8 ${className}`}
+    />
   );
 }

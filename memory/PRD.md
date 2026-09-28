@@ -29,7 +29,7 @@ Build a polished, production-ready B2B website for ANUYORA, an India-based finan
 - Bookkeeping firm with recurring volume: dedicated support model.
 
 ## Backlog
-- P0: Set OWNER_EMAIL (enquiry email alerts); replace wordmark with uploaded logo when provided.
+- P0: Set OWNER_EMAIL (enquiry email alerts); logo: exact uploaded ANUYORA logo now live in header/footer and used (cropped mark) as favicon.
 - P1: Real contact details in footer (email/phone/address); Privacy Policy + Terms pages; final domain in sitemap/canonicals.
 - P1: Additional accounting platform integrations as clients require.
 - P2: Future service lines (tax, payroll, advisory) — architecture allows adding, do not activate now.
