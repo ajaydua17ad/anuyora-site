@@ -3,25 +3,28 @@ import Lenis from "lenis";
 let lenis = null;
 
 export function initLenis() {
-  if (lenis) return lenis;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
-  lenis = new Lenis({
-    duration: 1.15,
-    easing: (t) => 1 - Math.pow(1 - t, 3),
-    smoothWheel: true,
-  });
-  const raf = (time) => {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
+  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const sync = () => {
+    lenis?.destroy();
+    lenis = media.matches ? null : new Lenis({
+      autoRaf: true,
+      duration: 0.85,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      smoothWheel: true,
+      syncTouch: false,
+      prevent: () => document.body.hasAttribute("data-scroll-locked"),
+    });
   };
-  requestAnimationFrame(raf);
-  return lenis;
+  sync();
+  media.addEventListener("change", sync);
+  return () => {
+    media.removeEventListener("change", sync);
+    lenis?.destroy();
+    lenis = null;
+  };
 }
 
 export function scrollToTop() {
-  if (lenis) {
-    lenis.scrollTo(0, { immediate: true });
-  } else {
-    window.scrollTo(0, 0);
-  }
+  if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+  else window.scrollTo({ top: 0, behavior: "instant" });
 }

@@ -1,5 +1,4 @@
 from fastapi import FastAPI, APIRouter, Request, HTTPException
-from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -9,7 +8,6 @@ import ipaddress
 import logging
 import uuid
 import httpx
-from collections import deque, defaultdict
 from datetime import datetime, timezone
 from html import escape
 from html.parser import HTMLParser
@@ -17,6 +15,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from pydantic import BaseModel, Field, ConfigDict, EmailStr, field_validator
 from typing import List, Optional
+from rate_limit import check_rate_limit, trusted_proxy_networks
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / ".env")
@@ -35,7 +34,7 @@ api_router = APIRouter(prefix="/api")
 # Emergent managed email proxy (constant, survives deployment)
 EMAIL_BASE_URL = "https://integrations.emergentagent.com"
 EMAIL_KEY = os.environ["EMERGENT_EMAIL_KEY"]
-EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "ANUYORA")
+EMAIL_FROM_NAME = os.environ["EMAIL_FROM_NAME"]
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 
 logging.basicConfig(
@@ -141,23 +140,6 @@ async def send_email(*, to: str, subject: str, html: str, reply_to: str | None =
         raise HTTPException(status_code=500, detail="Failed to send email")
 
 
-# ---------------- Rate limiting ----------------
-
-_RATE: dict = defaultdict(deque)
-
-
-def _rate_limit(request: Request, bucket: str, max_requests: int, window_seconds: int):
-    ip = request.client.host if request.client else "unknown"
-    key = f"{bucket}:{ip}"
-    now = datetime.now(timezone.utc).timestamp()
-    q = _RATE[key]
-    while q and now - q[0] > window_seconds:
-        q.popleft()
-    if len(q) >= max_requests:
-        raise HTTPException(status_code=429, detail="Too many requests. Please try again shortly.")
-    q.append(now)
-
-
 # ---------------- Contact ----------------
 
 CLIENT_TYPES = {"CPA / Accounting Firm", "Bookkeeping Firm", "Business", "Other"}
@@ -180,7 +162,7 @@ class ContactCreate(BaseModel):
     company: str
     website: Optional[str] = ""
     client_type: str
-    services: List[str] = []
+    services: List[str] = Field(default_factory=list)
     message: str
     company_url: str = ""  # honeypot field — hidden from real users
 
@@ -284,9 +266,15 @@ async def get_status_checks():
     return status_checks
 
 
-@api_router.post("/contact")
+class ContactResponse(BaseModel):
+    status: str
+    enquiry_id: Optional[str] = None
+    email_notification: Optional[str] = None
+
+
+@api_router.post("/contact", response_model=ContactResponse, response_model_exclude_none=True)
 async def create_contact(input: ContactCreate, request: Request):
-    _rate_limit(request, "contact", max_requests=5, window_seconds=600)
+    await check_rate_limit(db, request, "contact", max_requests=5, window_seconds=600)
 
     # Honeypot filled — silently accept without storing
     if input.company_url.strip():
@@ -306,16 +294,23 @@ async def create_contact(input: ContactCreate, request: Request):
     await db.enquiries.insert_one(doc)
 
     email_status = "skipped"
+    email_id = None
     if OWNER_EMAIL:
         try:
-            await send_email(
+            email_id = await send_email(
                 to=OWNER_EMAIL,
                 subject=f"New enquiry — {input.name.strip()} ({input.company.strip()})",
                 html=_enquiry_email_html(doc),
             )
             email_status = "sent"
         except Exception:
+            logger.exception("Notification failed for enquiry %s", doc["enquiry_id"])
             email_status = "failed"
+
+    await db.enquiries.update_one(
+        {"enquiry_id": doc["enquiry_id"]},
+        {"$set": {"email_notification": email_status, "email_id": email_id, "notification_recipient": OWNER_EMAIL}},
+    )
 
     return {
         "status": "success",
@@ -334,6 +329,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+async def prepare_indexes():
+    trusted_proxy_networks()
+    await db.rate_limits.create_index("expires_at", expireAfterSeconds=0)
 
 
 @app.on_event("shutdown")

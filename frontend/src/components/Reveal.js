@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 export const EASE = [0.22, 1, 0.36, 1];
 
-export function FadeUp({ children, delay = 0, y = 28, className = "" }) {
+export function FadeUp({ children, delay = 0, y = 18, className = "" }) {
   const reduce = useReducedMotion();
   if (reduce) return <div className={className}>{children}</div>;
   return (
@@ -10,8 +10,8 @@ export function FadeUp({ children, delay = 0, y = 28, className = "" }) {
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.8, ease: EASE, delay }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.65, ease: EASE, delay: Math.min(delay, 0.3) }}
     >
       {children}
     </motion.div>

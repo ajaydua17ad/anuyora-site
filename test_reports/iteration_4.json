@@ -1,0 +1,51 @@
+{
+  "summary": "Frontend-only regression executed on public preview for homepage hero/audience/services/navigation/contact preselect flows. Most acceptance checks passed, with 2 notable gaps.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "HomeHero responsive layout",
+        "issue": "At 1024px viewport, hero photo switches to absolute/background mode instead of full-width stacked photograph below copy. This conflicts with the approved tablet/mobile behavior expectation.",
+        "selector": ".hero-photograph",
+        "priority": "HIGH"
+      },
+      {
+        "component": "Mobile menu same-route click",
+        "issue": "Same-route close flow could not be reliably validated after reopen: menu panel intermittently appears partially off-viewport in automation and nav link click fails with 'outside of viewport'.",
+        "selector": "[data-testid='mobile-nav-link-services']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_4.json"
+  ],
+  "action_items": [
+    "Decide tablet breakpoint behavior: if 1024 should behave as tablet, extend stacked-hero rule to include 1024 width.",
+    "Stabilize mobile sheet open state/animation timing so same-route link remains fully clickable after repeated open/close cycles.",
+    "Re-run FAQ + reduced-motion regression after mobile-menu stability fix (not fully completed in this run due repeated menu interaction failure)."
+  ],
+  "critical_code_review_comments": [
+    "Audience pathway links and native client_type preselects are correctly wired (CPA / Accounting Firm, Bookkeeping Firm, Business).",
+    "All 4 home service icon links resolve to /services#anchor and targets are visible below sticky header in tested desktop flow.",
+    "QuickBooks statement remains consistent between homepage and Services page; no unsupported new services introduced.",
+    "No competitor brand/assets detected in frontend runtime content; reference appears only in image credits attribution file."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_4.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only pass)",
+    "frontend": "85%"
+  },
+  "seed_data_creation": "None.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Completed checks: no horizontal overflow at 320/390/768/1024/1440/1920, hero image naturalWidth observed as 900 (mobile source) and 1800 (desktop source), audience preselect links pass, hero/services CTAs pass, service anchor visibility under sticky header passes, contact details + trademark retained. Three attempts were made to validate mobile same-route close; repeated 'outside viewport' failures encountered for mobile-nav-link-services after reopen sequence.",
+  "rca of the issue": "Likely breakpoint and animation-state causes: (1) CSS uses max-width:1023 for stacked hero, so 1024 falls into desktop branch by design. (2) Mobile sheet interaction appears timing/transform-sensitive during repeated open/close; element exists but can remain outside clickable viewport during animation, causing same-route click failure."
+}

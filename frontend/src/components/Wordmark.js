@@ -1,13 +1,16 @@
-export default function Wordmark({ tone = "dark", className = "" }) {
+export default function Wordmark({ tone = "dark", className = "", id = "header" }) {
   const light = tone === "light";
   return (
-    <img
+    <span className={`brand-mark ${light ? "text-white" : "text-navy"} ${className}`}>
+      <img
       src={light ? "/anuyora-logo-white.png" : "/anuyora-logo.png"}
       alt="ANUYORA"
-      width={160}
-      height={33}
-      data-testid="anuyora-wordmark"
-      className={`${light ? "h-8" : "h-10 md:h-11"} w-auto ${className}`}
-    />
+        width={1508}
+        height={317}
+        data-testid={`${id}-wordmark`}
+        className="block h-auto w-full"
+      />
+      <span data-testid={`${id}-trademark`} aria-label="trademark" className="brand-trademark">™</span>
+    </span>
   );
 }

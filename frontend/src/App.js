@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
 import { initLenis, scrollToTop } from "@/lib/lenis";
@@ -9,12 +9,20 @@ import ServicesPage from "@/pages/Services";
 import HowWeWorkPage from "@/pages/HowWeWork";
 import AboutPage from "@/pages/About";
 import ContactPage from "@/pages/Contact";
+import Seo from "@/components/Seo";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  const first = useRef(true);
   useEffect(() => {
-    scrollToTop();
-  }, [pathname]);
+    if (!hash) scrollToTop();
+    if (!first.current) document.getElementById("main-content")?.focus({ preventScroll: true });
+    first.current = false;
+    if (hash) {
+      const frame = requestAnimationFrame(() => document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ behavior: "instant", block: "start" }));
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [pathname, hash]);
   return null;
 }
 
@@ -29,13 +37,13 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="wrap flex min-h-[60vh] flex-col justify-center py-24">
+        <div data-testid="page-error" role="alert" className="wrap flex min-h-[60vh] flex-col justify-center py-24">
           <h1 className="font-serif text-4xl text-ink">Something went wrong.</h1>
           <p className="mt-4 text-inksoft">
             Please reload the page, or{" "}
-            <Link to="/" className="underline underline-offset-4">
+            <a href="/" data-testid="error-home-link" className="underline underline-offset-4">
               return to the homepage
-            </Link>
+            </a>
             .
           </p>
         </div>
@@ -47,6 +55,7 @@ class ErrorBoundary extends React.Component {
 function NotFound() {
   return (
     <div data-testid="page-not-found" className="wrap flex min-h-[60vh] flex-col justify-center py-24">
+      <Seo title="Page Not Found | ANUYORA" description="Explore ANUYORA’s bookkeeping services or return to the homepage." path="/404" />
       <p className="eyebrow">404</p>
       <h1 className="mt-6 font-serif text-4xl tracking-tight text-ink md:text-5xl">
         This page doesn’t exist.
@@ -54,7 +63,7 @@ function NotFound() {
       <p className="mt-5 max-w-md text-base text-inksoft">
         The page you’re looking for may have moved. Return to the homepage or explore our services.
       </p>
-      <div className="mt-10 flex gap-8">
+      <div className="mt-10 flex flex-wrap gap-4">
         <Link to="/" data-testid="notfound-home-link" className="btn-primary">
           Back to Home
         </Link>
@@ -68,15 +77,16 @@ function NotFound() {
 
 function App() {
   useEffect(() => {
-    initLenis();
+    return initLenis();
   }, []);
 
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <a href="#main-content" data-testid="skip-to-content" className="skip-link">Skip to content</a>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex-1">
+        <main id="main-content" tabIndex={-1} data-testid="main-content" className="min-w-0 flex-1">
           <ErrorBoundary>
             <Routes>
               <Route path="/" element={<HomePage />} />

@@ -2,6 +2,7 @@ import Seo from "@/components/Seo";
 import Faq from "@/components/Faq";
 import { Eyebrow, CTAButton } from "@/components/Elements";
 import { FadeUp } from "@/components/Reveal";
+import { PageIntro } from "@/components/PageIntro";
 
 const STEPS = [
   {
@@ -67,38 +68,24 @@ export default function HowWeWork() {
         path="/how-we-work"
       />
 
-      <section data-testid="hww-hero" className="wrap pt-20 pb-16 md:pt-28 md:pb-20">
-        <Eyebrow>How We Work</Eyebrow>
-        <FadeUp delay={0.15} y={20}>
-          <h1 className="mt-8 max-w-3xl text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            We fit into your workflow—<em className="italic">not the other way around.</em>
-          </h1>
-        </FadeUp>
-        <FadeUp delay={0.3} y={18}>
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-inksoft md:text-lg">
-            Outsourcing works best when responsibilities are clear from the beginning.
-          </p>
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-inksoft md:text-lg">
-            ANUYORA takes a structured approach to understanding how your team works before
-            recurring delivery begins.
-          </p>
-        </FadeUp>
-      </section>
+      <PageIntro id="hww" label="How We Work" title={<>Your workflow.<br /><em>Our starting point.</em></>}>
+        <p>Good outsourcing starts with clear responsibilities. We take the time to understand your team, define the scope and agree on how we’ll work together—before recurring delivery begins.</p>
+      </PageIntro>
 
-      <section data-testid="hww-steps" className="wrap pb-8">
+      <section data-testid="hww-steps" className="wrap pb-16 md:pb-20">
         {STEPS.map((step, i) => (
           <FadeUp key={step.n} delay={0.03 * i} y={18}>
             <div
               data-testid={`hww-step-${i + 1}`}
-              className="grid gap-3 border-t border-hairline py-9 last:border-b md:grid-cols-12 md:gap-8 md:py-12"
+              className="grid gap-3 border-t border-hairline py-7 md:grid-cols-12 md:gap-8 md:py-9"
             >
-              <span className="font-serif text-3xl italic text-slate-500 md:col-span-2 md:text-4xl">
+              <span className="font-serif text-2xl text-slate-500 md:col-span-2" aria-hidden="true">
                 {step.n}
               </span>
-              <h2 className="font-serif text-2xl tracking-tight text-ink md:col-span-4 md:text-[1.65rem]">
+              <h2 data-testid={`hww-step-title-${i + 1}`} className="font-sans text-base font-semibold text-ink md:col-span-4 md:text-lg">
                 {step.title}
               </h2>
-              <p className="max-w-xl text-[15px] leading-relaxed text-inksoft md:col-span-6">
+              <p className="max-w-xl text-sm leading-7 text-inksoft md:col-span-6">
                 {step.copy}
               </p>
             </div>
@@ -106,34 +93,36 @@ export default function HowWeWork() {
         ))}
       </section>
 
-      <section data-testid="hww-dedicated" className="wrap py-20 md:py-28">
-        <FadeUp>
-          <div className="bg-navy-deep px-8 py-14 text-navy-text md:px-16 md:py-20">
-            <p className="eyebrow !text-slate-400">Extended Support</p>
-            <h2 className="mt-6 max-w-xl font-serif text-3xl leading-[1.15] tracking-tight md:text-4xl">
+      <section data-testid="hww-dedicated" className="bg-navy-deep text-navy-text">
+        <div className="wrap section-space grid gap-8 lg:grid-cols-12 lg:items-end">
+          <FadeUp className="lg:col-span-7">
+            <p className="eyebrow !text-slate-300">Extended Support</p>
+            <h2 data-testid="hww-dedicated-heading" className="section-title mt-6 max-w-xl">
               Need dedicated capacity?
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300">
               Accounting firms with recurring volume can discuss a dedicated bookkeeping-support
               model designed to work within the firm’s existing processes.
             </p>
-            <div className="mt-10">
+          </FadeUp>
+            <FadeUp delay={0.1} className="lg:col-span-5 lg:justify-self-end">
               <CTAButton to="/contact" tone="light" testid="hww-dedicated-cta">
                 Talk About Your Workflow
               </CTAButton>
-            </div>
-          </div>
-        </FadeUp>
+            </FadeUp>
+        </div>
       </section>
 
-      <section data-testid="hww-faq" className="wrap pb-24 md:pb-32">
+      <section data-testid="hww-faq" className="wrap section-space grid gap-8 lg:grid-cols-12">
+        <div className="lg:col-span-4">
         <Eyebrow>FAQ</Eyebrow>
         <FadeUp delay={0.05}>
-          <h2 className="mt-6 font-serif text-3xl tracking-tight text-ink md:text-4xl">
+          <h2 data-testid="faq-heading" className="section-title mt-6">
             Common questions.
           </h2>
         </FadeUp>
-        <FadeUp delay={0.1} className="mt-10">
+        </div>
+        <FadeUp delay={0.1} className="lg:col-span-8">
           <Faq items={FAQ_ITEMS} />
         </FadeUp>
       </section>

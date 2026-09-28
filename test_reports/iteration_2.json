@@ -1,0 +1,70 @@
+{
+  "summary": "Executed backend + frontend regression on public preview. Verified hero image rollout/responsiveness, audience preselection links, page smoke, FAQ, contact validation, and backend Gmail notification + Mongo persistence. Found mobile menu accessibility/interaction bugs and observed rate-limit behavior can be flaky across sequential runs in shared ingress conditions.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "/api/contact",
+        "issue": "Rate-limit six-request sequence was flaky across runs (first run all 200s, retry produced 429+Retry-After). Recent active hashed keys observed: 26b6802dfe170dc19e53113a299553f6b77d269ebc9739084e51d40ca338c759 and eed1b3307d41592e1bd79b0483c05bc01c422691e47684b3b0931a7e040bb4a9, indicating multiple source identities in shared ingress traffic."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "MobileMenu",
+        "issue": "Escape key did not close mobile sheet; menu remained visible after Escape in repeated checks.",
+        "selector": "[data-testid='mobile-menu']",
+        "priority": "HIGH"
+      },
+      {
+        "component": "MobileMenu",
+        "issue": "Mobile services nav link became non-clickable in automation ('Element is outside viewport') while sheet is open.",
+        "selector": "[data-testid='mobile-nav-link-services']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Contact form honeypot success/reset retest",
+        "issue": "Could not reliably automate hidden honeypot-driven success state because hidden field is non-editable in UI context; full real-submit UI success not rerun to avoid extra real notification.",
+        "affected_selectors": [
+          "[data-testid='contact-honeypot']",
+          "[data-testid='form-success']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_iteration2_contact_rate_limit.py",
+    "/app/backend/tests/test_public_api_contact_and_status.py",
+    "/app/test_reports/pytest/pytest_results_iteration2.xml",
+    "/app/test_reports/pytest/pytest_results_iteration2_retry.xml",
+    "/app/test_reports/pytest/pytest_results_iteration2_additional.xml"
+  ],
+  "action_items": [
+    "Fix mobile menu Escape close behavior (focus-trap/sheet close handling).",
+    "Fix mobile menu link clickability/viewport handling for in-drawer nav links.",
+    "Re-validate rate-limit identity strategy under shared ingress so six sequential requests from one client identity deterministically hit 429 on request 6."
+  ],
+  "critical_code_review_comments": [
+    "Real contact submission now persisted with email_notification='sent', non-empty email_id, and notification_recipient='anuyora@gmail.com' (validated in Mongo).",
+    "TTL index exists on rate_limits.expires_at with expireAfterSeconds=0.",
+    "Public contact info remains contact@anuyora.com in frontend constants, while owner alerts use Gmail fallback in backend env.",
+    "No interactive elements missing data-testid across tested routes (/ , /services, /how-we-work, /about, /contact); no duplicate data-testid detected in tested pages."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_iteration2_contact_rate_limit.py",
+    "/app/test_reports/iteration_2.json"
+  ],
+  "success_rate": {
+    "backend": "90%",
+    "frontend": "78%"
+  },
+  "seed_data_creation": "Created QA records via API tests (status checks, one real enquiry, honeypot submissions).",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "One real submission already used in this iteration: enquiry_id 2309770a-b74d-45b2-8d04-9bb1a4d58aab with email_id 01a0e832-5602-7368-a689-42b6629352fb and recipient anuyora@gmail.com. Avoid extra real sends; use honeypot for limiter tests. Mobile menu Escape and nav click issues were reproducible in Playwright mobile viewport.",
+  "rca of the issue": "Mobile menu issue likely in Sheet/dialog keyboard-close/focus handling on current implementation; Escape did not transition open state to false during test runs. Rate-limit inconsistency likely tied to request.client.host identity varying under shared ingress (multiple hashed limiter keys active), causing occasional all-200 six-request sequences before retry produced expected 429."
+}

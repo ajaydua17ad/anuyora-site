@@ -6,7 +6,7 @@ export function Eyebrow({ n, tone = "dark", children, className = "" }) {
   const rule = tone === "light" ? "bg-navy-border" : "bg-slate-300";
   const label = tone === "light" ? "text-slate-300" : "text-inksoft";
   return (
-    <div className={`flex items-center gap-4 ${className}`} data-testid="section-eyebrow">
+    <div className={`flex items-center gap-3 ${className}`} data-testid={`eyebrow-${String(children).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>
       {n && <span className={`font-serif text-sm italic ${num}`}>{n}</span>}
       <span className={`h-px w-10 ${rule}`} aria-hidden="true" />
       <span className={`eyebrow ${label}`}>{children}</span>
