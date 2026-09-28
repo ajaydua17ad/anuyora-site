@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 78% 8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 224 64% 33%;
+    --radius: 0rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-paper text-ink font-sans text-base;
+    margin: 0;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+  ::selection {
+    background: #061224;
+    color: #fdfdfc;
+  }
+  :focus-visible {
+    outline: 2px solid #1e3a8a;
+    outline-offset: 3px;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1180px] px-6 md:px-10 lg:px-12;
+  }
+  .eyebrow {
+    @apply text-[11px] font-bold uppercase tracking-[0.24em] text-inksoft;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-3 bg-navy px-8 py-4 text-sm font-semibold tracking-wide text-navy-text transition-colors duration-300 hover:bg-navy-mid;
+  }
+  .btn-light {
+    @apply inline-flex items-center justify-center gap-3 bg-paper px-8 py-4 text-sm font-semibold tracking-wide text-navy transition-colors duration-300 hover:bg-white;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-3 border border-ink/25 px-8 py-4 text-sm font-semibold tracking-wide text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper;
+  }
+  .arrow-link {
+    @apply inline-flex items-center gap-2 border-b border-ink/20 pb-1 text-sm font-semibold tracking-wide text-navy transition-colors duration-300 hover:border-ink;
+  }
+  .field-label {
+    @apply mb-1 block text-[11px] font-bold uppercase tracking-[0.2em] text-inksoft;
+  }
+  .field-input {
+    @apply w-full rounded-none border-0 border-b border-hairline bg-transparent px-0 py-3 text-[15px] text-ink placeholder:text-slate-400 transition-colors duration-300 focus:border-navy-mid focus:outline-none;
+  }
+  .field-error {
+    @apply mt-1 text-xs font-medium text-red-700;
+  }
+  .pill {
+    @apply inline-flex cursor-pointer items-center gap-2 border border-hairline bg-transparent px-4 py-2 text-[13px] font-medium text-inksoft transition-colors duration-200 hover:border-ink/40;
+  }
+  .pill-active {
+    @apply border-navy bg-navy text-navy-text hover:border-navy;
+  }
+  .hero-rules {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 127px,
+      rgba(15, 23, 42, 0.045) 127px,
+      rgba(15, 23, 42, 0.045) 128px
+    );
+  }
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.marquee-track {
+  animation: marquee 75s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

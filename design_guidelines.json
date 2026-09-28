@@ -1,0 +1,115 @@
+{
+  "theme": {
+    "mode": "light",
+    "rationale": "An editorial, premium professional-services aesthetic (advisory firm style) relies on a crisp light theme to prioritize clarity and typography, with specific high-contrast 'Deep Navy' sections (like 'Why ANUYORA') to create pacing and visual interest."
+  },
+  "typography": {
+    "heading_font": "Playfair Display",
+    "body_font": "Manrope",
+    "logo_fallback": "Playfair Display, font-black, tracking-tighter, uppercase",
+    "rules": [
+      "Use Playfair Display for large hero headlines and section titles. Ensure tracking-tight for sizes above 3xl.",
+      "Use Manrope for all body copy, forms, and UI elements. Clean grotesque pairing.",
+      "Strict avoidance of Inter and Roboto.",
+      "Never center-align paragraphs; maintain strong flush-left editorial reading lines.",
+      "Maintain a 2-step Tailwind scale gap between H2 and H3/Body."
+    ]
+  },
+  "colors": {
+    "background": "#FDFDFC",
+    "surface": "#FFFFFF",
+    "primary_navy": "#061224",
+    "accent_blue": "#1E3A8A",
+    "text_primary": "#0F172A",
+    "text_secondary": "#475569",
+    "border_hairline": "#E2E8F0",
+    "navy_section": {
+      "background": "#0A192F",
+      "text": "#F8FAFC",
+      "border": "#1E293B",
+      "accent": "#3B82F6"
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Apply a very subtle noise/grain or the abstract light paper texture as a fixed background overlay (opacity 2-4%) to remove digital flatness.",
+    "dividers": "Extensive use of hairline borders (1px solid border_hairline) to separate sections, list items, and form fields. Avoid drop shadows.",
+    "corners": "Sharp (rounded-none) or extremely subtle (rounded-sm) to maintain an authoritative, established advisory feel."
+  },
+  "components": {
+    "button": "Pill-shaped or crisp rectangle, dark navy background, white text, subtle scale on hover. No gradients.",
+    "inputs": "Editorial style: transparent background, solid hairline bottom border, no side/top borders. Label transitions on focus.",
+    "accordion": "Flush-left, hairline divider between items, subtle plus/minus icon.",
+    "marquee": "Slow, organic editorial ribbon. Serif font, large spacing (gap-24), muted text."
+  },
+  "layouts": {
+    "general": "Large whitespace. py-24 to py-32 for section padding. Container padding px-6 md:px-12.",
+    "hero": "Typography-driven. Massive H1 with line-by-line reveal, flush left. Minimal to no imagery in the hero; let the type breathe.",
+    "grids": "Use the 'Bento' or multi-column grid with heavy asymmetry. E.g., 4 columns for Services, heavily utilizing negative space."
+  },
+  "motion": {
+    "scroll": "Lenis smooth scrolling is mandatory for the premium feel.",
+    "reveals": "Masked line-by-line text reveal for main headlines (Framer Motion).",
+    "parallax": "Subtle Y-axis parallax on section backgrounds or large typographic elements.",
+    "interactions": "Restrained. No bouncy animations. Use easeOutCubic transitions."
+  },
+  "accessibility": {
+    "contrast": "Ensure Playfair Display is thick enough at smaller weights. Maintain APCA standards.",
+    "focus": "Clear focus rings on forms.",
+    "aria": "Include aria-labels on the marquee and accordion."
+  },
+  "media": {
+    "strategy": "Extremely restrained. No stock business people. Only abstract architectural or texture images to establish mood.",
+    "image_urls": [
+      {
+        "url": "https://images.unsplash.com/photo-1601662528567-526cd06f6582?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGxpZ2h0JTIwcGFwZXIlMjB0ZXh0dXJlfGVufDB8fHx8MTc5MDU4MjE5N3ww&ixlib=rb-4.1.0&q=85",
+        "category": "texture",
+        "description": "Abstract white paper texture, can be used as a 3-5% opacity overlay on the light theme for an editorial feel."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1483366774565-c783b9f70e2c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwbW9kZXJuJTIwb2ZmaWNlJTIwYXJjaGl0ZWN0dXJlJTIwZGV0YWlsfGVufDB8fHx8MTc5MDU4MjE5N3ww&ixlib=rb-4.1.0&q=85",
+        "category": "background",
+        "description": "Minimalist modern office detail. Can be used in the About section or Contact page as a subtle, heavily faded background to denote a professional environment without looking like cheap stock."
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1497366412874-3415097a27e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwzfHxtaW5pbWFsaXN0JTIwbW9kZXJuJTIwb2ZmaWNlJTIwYXJjaGl0ZWN0dXJlJTIwZGV0YWlsfGVufDB8fHx8MTc5MDU4MjE5N3ww&ixlib=rb-4.1.0&q=85",
+        "category": "background",
+        "description": "Glass divider room. Another option for a very clean, structured professional background."
+      }
+    ]
+  },
+  "pages_structure": {
+    "Home": {
+      "Hero": "Typography-driven, 'Bookkeeping that works like part of your team.'",
+      "Services": "'The bookkeeping work that keeps business moving.' with 4 service areas. Asymmetric grid.",
+      "Why_ANUYORA": "Deep Navy section. 'Your team, extended.' High contrast.",
+      "How_It_Works": "5-step 'Simple to start. Built to scale.' Minimal list layout.",
+      "Final_CTA": "Massive typography 'Let's build the right bookkeeping support...'"
+    },
+    "Services": "9 services list. Clean text-heavy layout. Bottom section 'Built around the way you work.'",
+    "How_We_Work": "Hero 'We fit into your workflow...', 5 steps, 'Need dedicated capacity?', FAQ with 6 questions.",
+    "About": "'A focused approach to finance outsourcing.' Statement text.",
+    "Contact": "Editorial form. Inputs as just bottom-borders. Radio buttons for 'I am a' and multi-select. Notice about sensitive info."
+  },
+  "instructions_to_main_agent": [
+    "Install required dependencies: framer-motion, lenis (or @studio-freight/react-lenis), lucide-react, react-fast-marquee, clsx, tailwind-merge.",
+    "Configure Tailwind with the custom fonts (Playfair Display, Manrope) and colors (navy, off-white).",
+    "Create a fixed sticky header with glassmorphism (backdrop-blur-md, solid bottom hairline) containing the wordmark logo and navigation. DO NOT use complete transparent background.",
+    "Build a custom editorial form component for the Contact page without using standard boxed inputs. Use bottom borders.",
+    "Use Framer Motion to create the line-by-line text reveal for the H1s.",
+    "Ensure the 'Why ANUYORA' section is wrapped in the deep navy color with light text to break up the page pacing.",
+    "All interactive and key informational elements MUST include a `data-testid` attribute.",
+    "Use javascript (.js / .jsx) files, not typescript (.tsx)."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. In frontend design, this creates what users call the 'AI slop' aesthetic. Avoid this.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy and negative space.",
+    "You MUST NOT apply universal transition (transition: all).",
+    "You MUST NOT center align the app container (.App { text-align: center; }).",
+    "NEVER use AI assistant Emoji characters.",
+    "Every interaction needs micro-animations - hover states, transitions.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states separate good from extraordinary.",
+    "Implement `data-testid` on all interactive and key informational elements."
+  ]
+}
