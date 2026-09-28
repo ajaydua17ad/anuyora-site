@@ -1,23 +1,13 @@
 export default function Wordmark({ tone = "dark", className = "" }) {
-  if (tone === "light") {
-    return (
-      <img
-        src="/anuyora-logo.png"
-        alt="ANUYORA"
-        width={160}
-        height={53}
-        className={`h-8 w-auto brightness-0 invert ${className}`}
-      />
-    );
-  }
+  const light = tone === "light";
   return (
     <img
-      src="/anuyora-logo.png"
+      src={light ? "/anuyora-logo-white.png" : "/anuyora-logo.png"}
       alt="ANUYORA"
       width={160}
-      height={53}
+      height={33}
       data-testid="anuyora-wordmark"
-      className={`h-9 w-auto md:h-10 ${className}`}
+      className={`${light ? "h-8" : "h-10 md:h-11"} w-auto ${className}`}
     />
   );
 }

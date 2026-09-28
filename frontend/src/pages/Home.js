@@ -29,20 +29,6 @@ const STEPS = [
   { n: "05", title: "Evolve", copy: "As requirements change, the scope and level of support can change with them." },
 ];
 
-function BrandWave() {
-  return (
-    <svg
-      viewBox="0 0 180 26"
-      fill="none"
-      aria-hidden="true"
-      className="h-5 w-36 text-navy-mid/60"
-    >
-      <path d="M2 20 C 38 4, 66 4, 96 14 S 150 24, 178 8" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M2 22 C 40 8, 68 8, 98 17 S 152 26, 178 12" stroke="currentColor" strokeWidth="1" opacity="0.45" />
-    </svg>
-  );
-}
-
 export default function Home() {
   return (
     <div data-testid="page-home">
@@ -54,7 +40,7 @@ export default function Home() {
 
       {/* SECTION 1 — HERO */}
       <section data-testid="hero-section" className="relative overflow-hidden">
-        <div className="wrap py-16 md:py-24 lg:py-28">
+        <div className="wrap py-14 md:py-20 lg:py-24">
           <div className="max-w-3xl">
             <FadeUp delay={0.05} y={14}>
               <div className="mb-8 flex items-center gap-4">
@@ -70,8 +56,8 @@ export default function Home() {
             <FadeUp delay={0.3} y={18}>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-inksoft md:text-lg">
                 ANUYORA provides dependable bookkeeping support for accounting firms and growing
-                businesses. We work within your processes and workflows, giving you the capacity to
-                get more done without adding unnecessary complexity.
+                businesses. We work within your existing processes and workflows, giving your team
+                additional capacity where it’s needed.
               </p>
             </FadeUp>
             <FadeUp delay={0.4} y={18}>
@@ -85,9 +71,8 @@ export default function Home() {
               </div>
             </FadeUp>
             <FadeUp delay={0.5} y={14}>
-              <div className="mt-14 border-t border-hairline pt-6">
-                <BrandWave />
-                <p className="mt-4 text-xs font-medium tracking-wide text-slate-500">
+              <div className="mt-12 border-t border-hairline pt-6">
+                <p className="text-xs font-medium tracking-wide text-slate-500">
                   India-based — supporting US accounting firms and growing businesses
                 </p>
               </div>
@@ -97,7 +82,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 2 — SERVICES */}
-      <section data-testid="home-services" className="wrap border-t border-hairline py-20 md:py-28">
+      <section data-testid="home-services" className="wrap border-t border-hairline py-16 md:py-24">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Eyebrow n="01">What We Do</Eyebrow>
@@ -117,7 +102,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-x-12 md:mt-20 md:grid-cols-2">
+        <div className="mt-14 grid gap-x-12 md:mt-16 md:grid-cols-2">
           {SERVICES.map((service, i) => (
             <FadeUp
               key={service.title}
@@ -148,7 +133,7 @@ export default function Home() {
 
       {/* SECTION 3 — WHY ANUYORA */}
       <section data-testid="why-anuyora" className="bg-navy-deep text-navy-text">
-        <div className="wrap py-20 md:py-28">
+        <div className="wrap py-16 md:py-24">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <Eyebrow n="02" tone="light">
@@ -191,7 +176,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 4 — HOW IT WORKS */}
-      <section data-testid="how-it-works" className="wrap py-20 md:py-28">
+      <section data-testid="how-it-works" className="wrap py-16 md:py-24">
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
@@ -231,7 +216,7 @@ export default function Home() {
 
       {/* SECTION 5 — FINAL CTA */}
       <section data-testid="final-cta" className="border-t border-hairline">
-        <div className="wrap py-20 md:py-28">
+        <div className="wrap py-16 md:py-24">
           <Eyebrow n="04">Start Here</Eyebrow>
           <FadeUp delay={0.05}>
             <h2 className="mt-8 max-w-3xl text-balance font-serif text-4xl leading-[1.1] tracking-tight text-ink md:text-5xl">
