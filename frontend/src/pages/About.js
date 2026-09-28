@@ -1,6 +1,6 @@
 import Seo from "@/components/Seo";
-import { Eyebrow } from "@/components/Elements";
-import { FadeUp, MaskLines } from "@/components/Reveal";
+import { Eyebrow, CTAButton } from "@/components/Elements";
+import { FadeUp } from "@/components/Reveal";
 
 export default function About() {
   return (
@@ -13,9 +13,11 @@ export default function About() {
 
       <section data-testid="about-hero" className="wrap pt-20 pb-16 md:pt-28 md:pb-20">
         <Eyebrow>About</Eyebrow>
-        <h1 className="mt-8 max-w-3xl font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          <MaskLines lines={["A focused approach to", { text: "finance outsourcing.", em: true }]} />
-        </h1>
+        <FadeUp delay={0.15} y={20}>
+          <h1 className="mt-8 max-w-3xl text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            A focused approach to <em className="italic">finance outsourcing.</em>
+          </h1>
+        </FadeUp>
         <div className="mt-10 max-w-2xl space-y-5 text-base leading-relaxed text-inksoft md:text-lg">
           <FadeUp delay={0.5} y={16}>
             <p>
@@ -45,7 +47,7 @@ export default function About() {
       </section>
 
       <section data-testid="about-statement" className="bg-navy-deep text-navy-text">
-        <div className="wrap py-24 md:py-32">
+        <div className="wrap py-20 md:py-28">
           <FadeUp>
             <p className="eyebrow !text-slate-400">What We Believe</p>
           </FadeUp>
@@ -76,12 +78,16 @@ export default function About() {
         </div>
       </section>
 
-      <section data-testid="about-close" className="wrap py-24 md:py-32">
+      <section data-testid="about-cta" className="wrap py-20 md:py-28">
         <FadeUp>
-          <p className="font-serif text-4xl tracking-tight text-ink md:text-5xl">ANUYORA</p>
-          <p className="mt-4 font-serif text-2xl italic text-inksoft md:text-3xl">
-            Your Global Finance Partner.
-          </p>
+          <h2 className="max-w-2xl text-balance font-serif text-4xl leading-[1.12] tracking-tight text-ink md:text-5xl">
+            Let’s talk about the work you’re managing.
+          </h2>
+        </FadeUp>
+        <FadeUp delay={0.15} className="mt-10">
+          <CTAButton to="/contact" testid="about-cta-button">
+            Start a Conversation
+          </CTAButton>
         </FadeUp>
       </section>
     </div>

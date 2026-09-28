@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Seo from "@/components/Seo";
 import { Eyebrow } from "@/components/Elements";
-import { FadeUp, MaskLines } from "@/components/Reveal";
+import { FadeUp } from "@/components/Reveal";
 
 const CLIENT_TYPES = ["CPA / Accounting Firm", "Bookkeeping Firm", "Business", "Other"];
 
@@ -103,10 +103,12 @@ export default function Contact() {
 
       <section data-testid="contact-hero" className="wrap pt-20 pb-14 md:pt-28 md:pb-16">
         <Eyebrow>Contact</Eyebrow>
-        <h1 className="mt-8 max-w-3xl font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          <MaskLines lines={["Let’s start with", { text: "what you need.", em: true }]} />
-        </h1>
-        <FadeUp delay={0.5} y={16}>
+        <FadeUp delay={0.15} y={20}>
+          <h1 className="mt-8 max-w-3xl text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Let’s start with <em className="italic">what you need.</em>
+          </h1>
+        </FadeUp>
+        <FadeUp delay={0.3} y={16}>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-inksoft md:text-lg">
             Looking for additional bookkeeping capacity?
           </p>
@@ -122,7 +124,7 @@ export default function Contact() {
         <div className="grid gap-16 lg:grid-cols-12">
           {status === "success" ? (
             <div data-testid="form-success" className="lg:col-span-8">
-              <div className="border border-hairline bg-white px-8 py-14 md:px-14">
+              <div role="status" className="border border-hairline bg-white px-8 py-14 md:px-14">
                 <p className="eyebrow">Message Received</p>
                 <h2 className="mt-6 font-serif text-4xl tracking-tight text-ink">Thank you.</h2>
                 <p className="mt-5 max-w-md text-base leading-relaxed text-inksoft">
@@ -169,9 +171,10 @@ export default function Contact() {
                     value={form.name}
                     onChange={(e) => set("name", e.target.value)}
                     aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "cf-name-error" : undefined}
                   />
                   {errors.name && (
-                    <p data-testid="contact-error-name" className="field-error">
+                    <p id="cf-name-error" role="alert" data-testid="contact-error-name" className="field-error">
                       {errors.name}
                     </p>
                   )}
@@ -189,9 +192,10 @@ export default function Contact() {
                     value={form.email}
                     onChange={(e) => set("email", e.target.value)}
                     aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "cf-email-error" : undefined}
                   />
                   {errors.email && (
-                    <p data-testid="contact-error-email" className="field-error">
+                    <p id="cf-email-error" role="alert" data-testid="contact-error-email" className="field-error">
                       {errors.email}
                     </p>
                   )}
@@ -209,9 +213,10 @@ export default function Contact() {
                     value={form.company}
                     onChange={(e) => set("company", e.target.value)}
                     aria-invalid={!!errors.company}
+                    aria-describedby={errors.company ? "cf-company-error" : undefined}
                   />
                   {errors.company && (
-                    <p data-testid="contact-error-company" className="field-error">
+                    <p id="cf-company-error" role="alert" data-testid="contact-error-company" className="field-error">
                       {errors.company}
                     </p>
                   )}
@@ -235,7 +240,12 @@ export default function Contact() {
 
               <fieldset className="mt-12">
                 <legend className="field-label">I am a:</legend>
-                <div data-testid="contact-client-type" className="mt-3 flex flex-wrap gap-3">
+                <div
+                  role="radiogroup"
+                  aria-label="I am a"
+                  data-testid="contact-client-type"
+                  className="mt-3 flex flex-wrap gap-3"
+                >
                   {CLIENT_TYPES.map((type) => (
                     <button
                       key={type}
@@ -251,7 +261,7 @@ export default function Contact() {
                   ))}
                 </div>
                 {errors.client_type && (
-                  <p data-testid="contact-error-client-type" className="field-error">
+                  <p id="cf-client-type-error" role="alert" data-testid="contact-error-client-type" className="field-error">
                     {errors.client_type}
                   </p>
                 )}
@@ -261,7 +271,12 @@ export default function Contact() {
                 <legend className="field-label">
                   What support are you looking for? — select all that apply
                 </legend>
-                <div data-testid="contact-support-areas" className="mt-3 flex flex-wrap gap-3">
+                <div
+                  role="group"
+                  aria-label="Support areas"
+                  data-testid="contact-support-areas"
+                  className="mt-3 flex flex-wrap gap-3"
+                >
                   {SUPPORT_AREAS.map((area) => (
                     <button
                       key={area}
@@ -290,9 +305,10 @@ export default function Contact() {
                   value={form.message}
                   onChange={(e) => set("message", e.target.value)}
                   aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "cf-message-error" : undefined}
                 />
                 {errors.message && (
-                  <p data-testid="contact-error-message" className="field-error">
+                  <p id="cf-message-error" role="alert" data-testid="contact-error-message" className="field-error">
                     {errors.message}
                   </p>
                 )}
@@ -320,7 +336,7 @@ export default function Contact() {
                 >
                   {status === "sending" ? "Sending…" : "Start a Conversation"}
                 </button>
-                <p className="max-w-sm text-xs leading-relaxed text-slate-400">
+                <p className="max-w-sm text-xs leading-relaxed text-slate-500">
                   Please do not submit sensitive client or financial information through this form.
                 </p>
               </div>

@@ -6,7 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import re
 import ipaddress
-import json
 import logging
 import uuid
 import httpx
@@ -18,7 +17,6 @@ from pathlib import Path
 from urllib.parse import urlparse
 from pydantic import BaseModel, Field, ConfigDict, EmailStr, field_validator
 from typing import List, Optional
-from emergentintegrations.llm.chat import LlmChat, UserMessage, TextDelta, StreamDone
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / ".env")
@@ -39,8 +37,6 @@ EMAIL_BASE_URL = "https://integrations.emergentagent.com"
 EMAIL_KEY = os.environ["EMERGENT_EMAIL_KEY"]
 EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "ANUYORA")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
-
-LLM_KEY = os.environ["EMERGENT_LLM_KEY"]
 
 logging.basicConfig(
     level=logging.INFO,
@@ -326,119 +322,6 @@ async def create_contact(input: ContactCreate, request: Request):
         "enquiry_id": doc["enquiry_id"],
         "email_notification": email_status,
     }
-
-
-# ---------------- Ask ANUYORA (concierge) ----------------
-
-CHAT_SYSTEM_PROMPT = """You are the "Ask ANUYORA" assistant on the ANUYORA website.
-
-ABOUT ANUYORA: ANUYORA is an India-based finance outsourcing company providing outsourced bookkeeping support for US accounting firms, CPA practices, bookkeeping firms and growing small and mid-sized businesses. Brand line: "Your Global Finance Partner."
-
-SERVICES: monthly bookkeeping, transaction recording and categorization, bank and credit-card reconciliations, journal entries, accounts payable support, accounts receivable support, cleanup and catch-up bookkeeping, month-end close support, and financial reporting (Profit & Loss statements, Balance Sheets, Cash Flow statements). QuickBooks is currently supported; additional accounting and workflow platforms are considered according to client requirements.
-
-ENGAGEMENTS: (1) Managed Bookkeeping — the client defines the bookkeeping requirements and ANUYORA manages the agreed recurring work; suitable for SMBs and firms outsourcing specific client books. (2) Extended / Dedicated Bookkeeping Support — recurring bookkeeping capacity that works within the accounting firm's existing systems, workflows and processes; suitable for CPA firms, accounting firms and bookkeeping firms with recurring client volume. For accounting firms, ANUYORA can work behind the scenes as part of the firm's delivery operation, communicating primarily with the firm's internal team; direct communication with end clients only if agreed.
-
-PROCESS: Understand, Define, Integrate, Deliver, Evolve.
-
-STRICT RULES: Use ONLY the information above plus what the visitor tells you. Never invent or guess pricing, statistics, certifications, testimonials, team size, years in business, client names, timelines or guarantees — ANUYORA is early-stage and none of these have been published. Do not offer tax preparation, audit, payroll, CFO advisory or FP&A; they are not offered. Never request sensitive client or financial information. Keep answers concise (2-4 sentences), calm and professional. For anything specific, or to move forward, invite the visitor to use the Contact page or the "Let's Talk" button."""
-
-
-class ChatMessage(BaseModel):
-    role: str
-    content: str
-
-    @field_validator("role")
-    @classmethod
-    def check_role(cls, v):
-        if v not in ("user", "assistant"):
-            raise ValueError("Invalid role")
-        return v
-
-    @field_validator("content")
-    @classmethod
-    def check_content(cls, v):
-        v = v.strip()
-        if not v or len(v) > 2000:
-            raise ValueError("Message must be between 1 and 2000 characters")
-        return v
-
-
-class ChatRequest(BaseModel):
-    messages: List[ChatMessage]
-    session_id: Optional[str] = None
-
-    @field_validator("session_id")
-    @classmethod
-    def check_session(cls, v):
-        if v and len(v) > 100:
-            raise ValueError("Invalid session")
-        return v
-
-
-@api_router.post("/chat")
-async def chat(request_body: ChatRequest, request: Request):
-    _rate_limit(request, "chat", max_requests=20, window_seconds=60)
-
-    msgs = request_body.messages[-8:]
-    if not msgs or msgs[-1].role != "user":
-        raise HTTPException(status_code=400, detail="No message provided")
-
-    session = request_body.session_id or str(uuid.uuid4())
-    turn = str(uuid.uuid4())
-    now_iso = datetime.now(timezone.utc).isoformat()
-
-    for m in msgs:
-        await db.chat_messages.insert_one(
-            {"session_id": session, "role": m.role, "content": m.content, "created_at": now_iso}
-        )
-
-    history_text = "\n\n".join(
-        f"{'Visitor' if m.role == 'user' else 'ANUYORA assistant'} said: {m.content}"
-        for m in msgs[:-1]
-    )
-    user_text = msgs[-1].content
-    if history_text:
-        user_text = f"Previous conversation:\n{history_text}\n\nVisitor's latest message: {user_text}"
-
-    chat_client = (
-        LlmChat(
-            api_key=LLM_KEY,
-            session_id=f"anuyora-web-{session}-{turn}",
-            system_message=CHAT_SYSTEM_PROMPT,
-        )
-        .with_model("openai", "gpt-5.4")
-    )
-
-    async def event_gen():
-        collected = []
-        try:
-            async for ev in chat_client.stream_message(UserMessage(text=user_text)):
-                if isinstance(ev, TextDelta):
-                    collected.append(ev.content)
-                    yield f"data: {json.dumps({'delta': ev.content})}\n\n"
-                elif isinstance(ev, StreamDone):
-                    break
-        except Exception as e:
-            logger.error(f"Chat error: {str(e)}")
-            yield f"data: {json.dumps({'error': 'Something went wrong. Please try again, or reach us through the contact form.'})}\n\n"
-        try:
-            await db.chat_messages.insert_one(
-                {
-                    "session_id": session,
-                    "role": "assistant",
-                    "content": "".join(collected),
-                    "created_at": datetime.now(timezone.utc).isoformat(),
-                }
-            )
-        except Exception:
-            pass
-        yield 'data: {"done": true}\n\n'
-
-    return StreamingResponse(
-        event_gen(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
 
 
 # Include the router in the main app

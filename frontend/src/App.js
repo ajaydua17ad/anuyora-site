@@ -9,7 +9,6 @@ import ServicesPage from "@/pages/Services";
 import HowWeWorkPage from "@/pages/HowWeWork";
 import AboutPage from "@/pages/About";
 import ContactPage from "@/pages/Contact";
-import ConciergeWidget from "@/components/ConciergeWidget";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -90,7 +89,6 @@ function App() {
           </ErrorBoundary>
         </main>
         <Footer />
-        <ConciergeWidget />
       </div>
     </BrowserRouter>
   );

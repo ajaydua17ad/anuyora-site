@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 export function Eyebrow({ n, tone = "dark", children, className = "" }) {
-  const num = tone === "light" ? "text-slate-500" : "text-slate-400";
+  const num = tone === "light" ? "text-slate-400" : "text-slate-500";
   const rule = tone === "light" ? "bg-navy-border" : "bg-slate-300";
   const label = tone === "light" ? "text-slate-300" : "text-inksoft";
   return (

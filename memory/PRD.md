@@ -23,6 +23,19 @@ Build a polished, production-ready B2B website for ANUYORA, an India-based finan
 - Header/footer/nav/mobile menu, SEO per-page titles/descriptions/OG, favicon.svg monogram, robots.txt, sitemap.xml (placeholder domain), JSON-LD Organization schema.
 - Concierge widget with streaming answers; backend verified via curl; all pages verified via screenshots (desktop 1440 + mobile 390).
 
+## Refinement pass (2026-09-28, user-directed)
+- Removed "Ask ANUYORA" concierge widget (UI + /api/chat backend route + related imports).
+- Removed scrolling service marquee; removed faint hero line-art, ledger rules and parallax.
+- Hero rebuilt as balanced single-column editorial composition; subtle brand wave motif (echoes logo) above the meta line.
+- Final CTA trimmed to headline + one invite line + button (no repeated positioning copy).
+- Footer: all placeholder contact/legal copy removed; minimal logo + tagline + nav + copyright only.
+- Navigation: full nav + Let's Talk CTA visible from 768px up; hamburger only below 768px.
+- Headings now use text-wrap: balance (no hard-coded line breaks; MaskLines removed).
+- Services page: Software note integrated as editorial row (card removed); 01–09 list unchanged.
+- About page: redundant sign-off removed; closing CTA ("Let's talk about the work you're managing.") added.
+- Small text raised to slate-500+ on light backgrounds (WCAG AA); contact form: aria-describedby errors, role=alert, radiogroup/group roles, role=status success panel.
+- Verified at 1440 / 768 / 390 across all five pages; no horizontal overflow; backend contact endpoint re-verified after chat removal.
+
 ## Personas
 - US CPA firm owner: wants behind-the-scenes delivery capacity, communicates with internal team only.
 - SMB owner: wants a bookkeeping function without building it in-house.

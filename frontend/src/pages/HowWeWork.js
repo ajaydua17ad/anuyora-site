@@ -1,7 +1,7 @@
 import Seo from "@/components/Seo";
 import Faq from "@/components/Faq";
 import { Eyebrow, CTAButton } from "@/components/Elements";
-import { FadeUp, MaskLines } from "@/components/Reveal";
+import { FadeUp } from "@/components/Reveal";
 
 const STEPS = [
   {
@@ -69,12 +69,12 @@ export default function HowWeWork() {
 
       <section data-testid="hww-hero" className="wrap pt-20 pb-16 md:pt-28 md:pb-20">
         <Eyebrow>How We Work</Eyebrow>
-        <h1 className="mt-8 max-w-3xl font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          <MaskLines
-            lines={["We fit into your workflow—", { text: "not the other way around.", em: true }]}
-          />
-        </h1>
-        <FadeUp delay={0.5} y={18}>
+        <FadeUp delay={0.15} y={20}>
+          <h1 className="mt-8 max-w-3xl text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            We fit into your workflow—<em className="italic">not the other way around.</em>
+          </h1>
+        </FadeUp>
+        <FadeUp delay={0.3} y={18}>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-inksoft md:text-lg">
             Outsourcing works best when responsibilities are clear from the beginning.
           </p>
@@ -92,7 +92,7 @@ export default function HowWeWork() {
               data-testid={`hww-step-${i + 1}`}
               className="grid gap-3 border-t border-hairline py-9 last:border-b md:grid-cols-12 md:gap-8 md:py-12"
             >
-              <span className="font-serif text-3xl italic text-slate-300 md:col-span-2 md:text-4xl">
+              <span className="font-serif text-3xl italic text-slate-500 md:col-span-2 md:text-4xl">
                 {step.n}
               </span>
               <h2 className="font-serif text-2xl tracking-tight text-ink md:col-span-4 md:text-[1.65rem]">

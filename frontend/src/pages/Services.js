@@ -1,6 +1,6 @@
 import Seo from "@/components/Seo";
 import { Eyebrow, CTAButton } from "@/components/Elements";
-import { FadeUp, MaskLines } from "@/components/Reveal";
+import { FadeUp } from "@/components/Reveal";
 
 const SERVICES = [
   {
@@ -52,10 +52,12 @@ export default function Services() {
 
       <section data-testid="services-hero" className="wrap pt-20 pb-16 md:pt-28 md:pb-20">
         <Eyebrow>Services</Eyebrow>
-        <h1 className="mt-8 max-w-3xl font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          <MaskLines lines={["Bookkeeping support built", { text: "around your workflow.", em: true }]} />
-        </h1>
-        <FadeUp delay={0.5} y={18}>
+        <FadeUp delay={0.15} y={20}>
+          <h1 className="mt-8 max-w-3xl text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Bookkeeping support built <em className="italic">around your workflow.</em>
+          </h1>
+        </FadeUp>
+        <FadeUp delay={0.3} y={18}>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-inksoft md:text-lg">
             Every business handles its books differently. That’s why ANUYORA starts with the work
             that needs to be done rather than forcing clients into a predefined package.
@@ -70,7 +72,7 @@ export default function Services() {
               data-testid={`service-row-${i + 1}`}
               className="group grid gap-3 border-t border-hairline py-9 last:border-b md:grid-cols-12 md:items-baseline md:gap-8 md:py-11"
             >
-              <span className="font-serif text-sm italic text-slate-400 md:col-span-1">
+              <span className="font-serif text-sm italic text-slate-500 md:col-span-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h2 className="font-serif text-2xl tracking-tight text-ink transition-colors duration-300 group-hover:text-navy-mid md:col-span-5 md:text-[1.65rem]">
@@ -86,9 +88,9 @@ export default function Services() {
 
       <section data-testid="services-software" className="wrap pb-8">
         <FadeUp>
-          <div className="border border-hairline bg-white px-8 py-8 md:px-10">
-            <p className="eyebrow">Software</p>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-inksoft">
+          <div className="grid gap-3 border-t border-hairline py-9 md:grid-cols-12 md:items-baseline md:gap-8 md:py-11">
+            <p className="eyebrow md:col-span-5 md:col-start-2">Software</p>
+            <p className="max-w-xl text-[15px] leading-relaxed text-inksoft md:col-span-6 md:col-start-7">
               QuickBooks is currently supported, with additional accounting and workflow platforms
               considered according to client requirements.
             </p>

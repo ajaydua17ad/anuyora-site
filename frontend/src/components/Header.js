@@ -36,7 +36,7 @@ export default function Header() {
           <Wordmark />
         </Link>
 
-        <nav aria-label="Primary" data-testid="nav-desktop" className="hidden items-center gap-9 lg:flex">
+        <nav aria-label="Primary" data-testid="nav-desktop" className="hidden items-center gap-6 md:flex xl:gap-9">
           {NAV.map((item) => (
             <NavLink
               key={item.to}
@@ -67,7 +67,7 @@ export default function Header() {
           <Link
             to="/contact"
             data-testid="header-cta-lets-talk"
-            className="btn-primary hidden !px-6 !py-2.5 lg:inline-flex"
+            className="btn-primary hidden !px-6 !py-2.5 md:inline-flex"
           >
             Let’s Talk
           </Link>
@@ -78,7 +78,7 @@ export default function Header() {
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 items-center justify-center border border-hairline text-ink transition-colors hover:border-ink/40 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center border border-hairline text-ink transition-colors hover:border-ink/40 md:hidden"
           >
             {open ? <X size={18} strokeWidth={1.75} /> : <Menu size={18} strokeWidth={1.75} />}
           </button>
@@ -89,7 +89,7 @@ export default function Header() {
       <div
         id="mobile-menu"
         data-testid="mobile-menu"
-        className={`fixed inset-x-0 top-16 md:top-20 bottom-0 z-40 border-t border-hairline bg-paper transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-x-0 top-16 bottom-0 z-40 border-t border-hairline bg-paper transition-opacity duration-300 md:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
