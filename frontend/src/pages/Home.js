@@ -40,44 +40,60 @@ export default function Home() {
 
       {/* SECTION 1 — HERO */}
       <section data-testid="hero-section" className="relative overflow-hidden">
-        <div className="wrap py-14 md:py-20 lg:py-24">
-          <div className="max-w-3xl">
-            <FadeUp delay={0.05} y={14}>
-              <div className="mb-8 flex items-center gap-4">
-                <span className="h-px w-10 bg-slate-300" aria-hidden="true" />
-                <p className="eyebrow">Your Global Finance Partner</p>
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.15} y={22}>
-              <h1 className="text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-                Bookkeeping that works like part of <em className="italic">your team.</em>
-              </h1>
-            </FadeUp>
-            <FadeUp delay={0.3} y={18}>
-              <p className="mt-8 max-w-xl text-base leading-relaxed text-inksoft md:text-lg">
-                ANUYORA provides dependable bookkeeping support for accounting firms and growing
-                businesses. We work within your existing processes and workflows, giving your team
-                additional capacity where it’s needed.
-              </p>
-            </FadeUp>
-            <FadeUp delay={0.4} y={18}>
-              <div className="mt-10 flex flex-wrap items-center gap-8">
-                <CTAButton to="/contact" testid="hero-primary-cta">
-                  Start a Conversation
-                </CTAButton>
-                <ArrowLink to="/services" testid="hero-secondary-link">
-                  Explore Our Services
-                </ArrowLink>
-              </div>
-            </FadeUp>
-            <FadeUp delay={0.5} y={14}>
-              <div className="mt-12 border-t border-hairline pt-6">
-                <p className="text-xs font-medium tracking-wide text-slate-500">
-                  India-based — supporting US accounting firms and growing businesses
+        <div className="wrap py-12 md:py-16 lg:py-20">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <FadeUp delay={0.05} y={14}>
+                <div className="mb-8 flex items-center gap-4">
+                  <span className="h-px w-10 bg-slate-300" aria-hidden="true" />
+                  <p className="eyebrow">Your Global Finance Partner</p>
+                </div>
+              </FadeUp>
+              <FadeUp delay={0.15} y={22}>
+                <h1 className="text-balance font-serif text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+                  Bookkeeping that works like part of <em className="italic">your team.</em>
+                </h1>
+              </FadeUp>
+              <FadeUp delay={0.3} y={18}>
+                <p className="mt-8 max-w-xl text-base leading-relaxed text-inksoft md:text-lg">
+                  ANUYORA provides dependable bookkeeping support for accounting firms and growing
+                  businesses. We work within your existing processes and workflows, giving your team
+                  additional capacity where it’s needed.
                 </p>
-              </div>
-            </FadeUp>
+              </FadeUp>
+              <FadeUp delay={0.4} y={18}>
+                <div className="mt-10 flex flex-wrap items-center gap-8">
+                  <CTAButton to="/contact" testid="hero-primary-cta">
+                    Start a Conversation
+                  </CTAButton>
+                  <ArrowLink to="/services" testid="hero-secondary-link">
+                    Explore Our Services
+                  </ArrowLink>
+                </div>
+              </FadeUp>
+            </div>
+
+            <div className="lg:col-span-4 lg:col-start-9">
+              <FadeUp delay={0.5} y={16}>
+                <div data-testid="hero-audiences">
+                  <p className="eyebrow">Who We Support</p>
+                  <ul className="mt-5 divide-y divide-hairline border-y border-hairline">
+                    <li className="py-3.5 text-[15px] text-inksoft">Accounting & CPA Firms</li>
+                    <li className="py-3.5 text-[15px] text-inksoft">Bookkeeping Firms</li>
+                    <li className="py-3.5 text-[15px] text-inksoft">Growing Businesses</li>
+                  </ul>
+                </div>
+              </FadeUp>
+            </div>
           </div>
+
+          <FadeUp delay={0.6} y={14}>
+            <div className="mt-10 border-t border-hairline pt-5">
+              <p className="text-xs font-medium tracking-wide text-slate-500">
+                India-based — supporting US accounting firms and growing businesses
+              </p>
+            </div>
+          </FadeUp>
         </div>
       </section>
 
