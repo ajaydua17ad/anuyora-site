@@ -33,7 +33,7 @@ export const useEnquiry = (clientType) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 45000);
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact`, {
+      const response = await fetch("/api/contact", {
         method: "POST", headers: { "Content-Type": "application/json" }, signal: controller.signal,
         body: JSON.stringify({ ...form, email: form.email.trim() }),
       });
