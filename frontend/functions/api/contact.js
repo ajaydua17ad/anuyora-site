@@ -67,7 +67,7 @@ export async function onRequestPost(context) {
     return json({ status: "error", message: "Enquiry service is not configured yet." }, 503);
   }
 
-  const enquiryId = crypto.randomUUID();
+  const suppliedRequestId = clean(input.request_id, 100);\n  const enquiryId = /^[a-zA-Z0-9_-]{8,100}$/.test(suppliedRequestId) ? suppliedRequestId : crypto.randomUUID();
   const createdAt = new Date().toISOString();
 
   const rows = [
@@ -101,7 +101,7 @@ export async function onRequestPost(context) {
     method: "POST",
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
+      "Content-Type": "application/json",\n      "Idempotency-Key": `website-enquiry/${enquiryId}`,
     },
     body: JSON.stringify({
       from: `${fromName} <${fromEmail}>`,
