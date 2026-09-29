@@ -11,6 +11,8 @@ function setMeta(attr, key, content) {
   el.setAttribute("content", content);
 }
 
+const SITE_ORIGIN = "https://anuyora.com";
+
 export default function Seo({ title, description, path }) {
   useEffect(() => {
     document.title = title;
@@ -18,7 +20,7 @@ export default function Seo({ title, description, path }) {
     setMeta("property", "og:title", title);
     setMeta("property", "og:description", description);
     setMeta("property", "og:type", "website");
-    setMeta("property", "og:url", `${window.location.origin}${path}`);
+    setMeta("property", "og:url", `${SITE_ORIGIN}${path}`);
     setMeta("property", "og:site_name", "ANUYORA");
     setMeta("name", "twitter:card", "summary");
     setMeta("name", "twitter:title", title);
@@ -29,7 +31,7 @@ export default function Seo({ title, description, path }) {
       canonical.setAttribute("rel", "canonical");
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute("href", `${window.location.origin}${path}`);
+    canonical.setAttribute("href", `${SITE_ORIGIN}${path}`);
   }, [title, description, path]);
 
   return null;
